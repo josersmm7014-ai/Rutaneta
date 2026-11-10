@@ -13,14 +13,7 @@ jobs:
         with: {node-version: 20}
       - uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: 17}
-      - working-directory: app
-        run: |
-          npm install
-          npx cap add android
-          cp -r res/. android/app/src/main/res/
-          printf '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n<color name="ic_launcher_background">#0A0612</color>\n</resources>\n' > android/app/src/main/res/values/ic_launcher_background.xml
-          npx cap sync android
-          cd android && chmod +x gradlew && ./gradlew assembleDebug
+      - run: bash app/ci.sh
       - uses: actions/upload-artifact@v4
         with:
           name: LetrasEnVivo-apk
